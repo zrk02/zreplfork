@@ -49,6 +49,7 @@ Version for deb822 standard (Debian Trixie and beyond):
 Version for legacy apt format:
 
 ::
+
     (
     set -ex
     zrepl_apt_key_url=https://zrepl.cschwarz.com/apt/apt-key.asc

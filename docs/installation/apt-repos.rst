@@ -9,7 +9,8 @@ The fingerprint of the signing key is ``E101 418F D3D6 FBCB 9D65  A62D 7086 99FC
 It is available at `<https://zrepl.cschwarz.com/apt/apt-key.asc>`_ .
 Please open an issue in on GitHub if you encounter any issues with the repository.
 
-.. Version for deb822 standard:::
+
+Version for deb822 standard (Debian Trixie and beyond):
 
 ::
 
@@ -45,7 +46,8 @@ Please open an issue in on GitHub if you encounter any issues with the repositor
     )
 
 
-.. Version for legacy apt format::
+Version for legacy apt format:
+
 ::
     (
     set -ex

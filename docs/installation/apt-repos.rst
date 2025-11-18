@@ -9,8 +9,44 @@ The fingerprint of the signing key is ``E101 418F D3D6 FBCB 9D65  A62D 7086 99FC
 It is available at `<https://zrepl.cschwarz.com/apt/apt-key.asc>`_ .
 Please open an issue in on GitHub if you encounter any issues with the repository.
 
+.. Version for deb822 standard:::
+
 ::
 
+    (
+    set -exu
+    zrepl_apt_key_url=https://zrepl.cschwarz.com/apt/apt-key.asc
+    zrepl_apt_key_dst=/usr/share/keyrings/zrepl.gpg
+    zrepl_apt_repo_file=/etc/apt/sources.list.d/zrepl.sources
+
+    # Install dependencies for subsequent commands.
+    sudo apt update && sudo apt install curl gnupg lsb-release
+
+    # Deploy the zrepl apt key.
+    curl -fsSL "$zrepl_apt_key_url" | tee | gpg --dearmor | sudo tee "$zrepl_apt_key_dst" > /dev/null
+
+    # Add the zrepl apt repo in the modern `deb822` format.
+    ARCH="$(dpkg --print-architecture)"
+    DISTRO="$(lsb_release -i -s | tr '[:upper:]' '[:lower:]')"
+    CODENAME="$(lsb_release -c -s | tr '[:upper:]' '[:lower:]')"
+    echo "Using Distro: $DISTRO and Codename: $CODENAME"
+
+    cat << EOF | sudo tee "$zrepl_apt_repo_file" > /dev/null
+    Types: deb
+    URIs: https://zrepl.cschwarz.com/apt/$DISTRO
+    Suites: $CODENAME
+    Components: main
+    Architectures: $ARCH
+    Signed-By: $zrepl_apt_key_dst
+    EOF
+
+    # Update apt repos.
+    sudo apt update
+    )
+
+
+.. Version for legacy apt format::
+::
     (
     set -ex
     zrepl_apt_key_url=https://zrepl.cschwarz.com/apt/apt-key.asc
@@ -32,6 +68,7 @@ Please open an issue in on GitHub if you encounter any issues with the repositor
     # Update apt repos.
     sudo apt update
     )
+
 
 .. NOTE::
 
